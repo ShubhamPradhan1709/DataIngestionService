@@ -12,6 +12,7 @@ async def upload_video(video_details: VideoCreateRequest):
 
     # Also once the video is successfully create the metadata in video table as well as call the VideoChunkingEventQueue
     # writeVideoMetaData()
+    
     # produce_VideoChunkingEventQueue()
 
     return {"message": "Video uploaded successfully"}
@@ -19,7 +20,7 @@ async def upload_video(video_details: VideoCreateRequest):
 
 
 @router.get("/videos/{video_id}")
-async def get_video_details(video_id: VideoResponse):
+async def get_video_details(video_id: str):
 
     # Placeholder for getting video details 
 

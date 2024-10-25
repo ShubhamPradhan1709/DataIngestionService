@@ -12,4 +12,4 @@ package:
 	docker build -t $(IMAGE_NAME) .
 
 start:
-	uvicorn main:app
+	uvicorn app:app
