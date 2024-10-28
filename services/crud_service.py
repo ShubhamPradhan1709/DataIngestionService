@@ -1,8 +1,10 @@
 from sqlmodel import Session
 from models.job import JobTable
-from models.video import VideoTable
+from models.video import VideoObjectStoreResponse, VideoTable
 from models.player import PlayerTable
 from models.user import UserTable
+from db.dbsetup import get_session
+from fastapi import Depends
 
 class UserCrud:
     async def create(self, db: Session, user_data: UserTable):
@@ -75,7 +77,7 @@ class JobCrud:
 job_crud = JobCrud()
 
 class PlayerCrud:
-    async def create(self, db: Session, player_data: PlayerTable):
+    async def create(db: Session, player_data: PlayerTable):
         player = PlayerTable(**player_data.model_dump())
         db.add(player)
         db.commit()
@@ -110,8 +112,8 @@ class PlayerCrud:
 player_crud = PlayerCrud()
 
 class VideoCrud:
-    async def create(self, db: Session, video_data: VideoTable):
-        video = VideoTable(**video_data.model_dump())
+    async def create(video_data: VideoObjectStoreResponse, db = Depends(get_session)):
+        video = VideoTable(video_data.model_dump())
         db.add(video)
         db.commit()
         db.refresh(video)

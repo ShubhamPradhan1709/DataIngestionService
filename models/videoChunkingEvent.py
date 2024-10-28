@@ -7,4 +7,7 @@ class VideoChunkingEvent(BaseModel):
     event_id: UUID
     video_id: str
     timestamp: datetime
-    object_store_url: HttpUrl
+    video_url: HttpUrl
+
+
+
