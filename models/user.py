@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field
+from typing import Optional
 
 class UserCreateRequest(BaseModel):
     user_name: str
@@ -18,7 +19,7 @@ class UserCreateResponse(BaseModel):
     status_message: str 
 
 class UserTable(SQLModel, table=True):
-    user_id: int = Field(default=None, primary_key=True)
+    user_id: Optional[int] = Field(default=None, primary_key=True)
     role: str | None
     role_id: int
     user_name: str

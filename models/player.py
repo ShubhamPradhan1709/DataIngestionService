@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field
+from typing import Optional, Dict
 
 class PlayerRequest(BaseModel):
     player_id: int
@@ -11,10 +12,10 @@ class PlayerRequest(BaseModel):
 class PlayerResponse(BaseModel):
     player_id: int
     player_name: str
-    stats: dict 
+    # stats: Optional[Dict] 
 
 class PlayerTable(SQLModel, table=True):
-    player_id: int = Field(default=None, primary_key=True)
+    player_id: Optional[int] = Field(default=None, primary_key=True)
     player_name: str
     position: str
-    stats: dict
+    # stats: Optional[Dict]

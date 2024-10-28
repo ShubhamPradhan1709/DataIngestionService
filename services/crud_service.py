@@ -6,7 +6,7 @@ from models.user import UserTable
 
 class UserCrud:
     async def create(self, db: Session, user_data: UserTable):
-        user = UserTable(**user_data.dict())
+        user = UserTable(**user_data.model_dump())
         db.add(user)
         db.commit()
         db.refresh(user)
@@ -15,19 +15,14 @@ class UserCrud:
     async def get(self, db: Session, user_id: str = None):
         if user_id:
             response = db.get(UserTable, user_id)
-            if response:
-                return response
-            return None
+            return response if response else None
         
-        responses = db.query(UserTable).all()
-        return [
-            user for user in responses
-        ]
+        return db.exec(UserTable).all()
 
     async def update(self, db: Session, user_id: str, updated_user: UserTable):
         user = db.get(UserTable, user_id)
         if user:
-            for key, value in updated_user.dict(exclude_unset=True).items():
+            for key, value in updated_user.model_dump(exclude_unset=True).items():
                 setattr(user, key, value)
             db.commit()
             db.refresh(user)
@@ -41,12 +36,12 @@ class UserCrud:
             db.commit()
             return "User Deleted Successfully"
         return "User not found"
-    
+
 user_crud = UserCrud()
 
 class JobCrud:
     async def create(self, db: Session, job_data: JobTable):
-        job = JobTable(**job_data.dict())
+        job = JobTable(**job_data.model_dump())
         db.add(job)
         db.commit()
         db.refresh(job)
@@ -55,19 +50,14 @@ class JobCrud:
     async def get(self, db: Session, job_id: str = None):
         if job_id:
             response = db.get(JobTable, job_id)
-            if response:
-                return response
-            return None
+            return response if response else None
         
-        responses = db.query(JobTable).all()
-        return [
-            job for job in responses
-        ]
+        return db.exec(JobTable).all()
 
     async def update(self, db: Session, job_id: str, updated_job: JobTable):
         job = db.get(JobTable, job_id)
         if job:
-            for key, value in updated_job.dict(exclude_unset=True).items():
+            for key, value in updated_job.model_dump(exclude_unset=True).items():
                 setattr(job, key, value)
             db.commit()
             db.refresh(job)
@@ -86,7 +76,7 @@ job_crud = JobCrud()
 
 class PlayerCrud:
     async def create(self, db: Session, player_data: PlayerTable):
-        player = PlayerTable(**player_data.dict())
+        player = PlayerTable(**player_data.model_dump())
         db.add(player)
         db.commit()
         db.refresh(player)
@@ -95,19 +85,14 @@ class PlayerCrud:
     async def get(self, db: Session, player_id: str = None):
         if player_id:
             response = db.get(PlayerTable, player_id)
-            if response:
-                return response
-            return None
+            return response if response else None
         
-        responses = db.query(PlayerTable).all()
-        return [
-            player for player in responses
-        ]
+        return db.exec(PlayerTable).all()
 
     async def update(self, db: Session, player_id: str, updated_player: PlayerTable):
         player = db.get(PlayerTable, player_id)
         if player:
-            for key, value in updated_player.dict(exclude_unset=True).items():
+            for key, value in updated_player.model_dump(exclude_unset=True).items():
                 setattr(player, key, value)
             db.commit()
             db.refresh(player)
@@ -126,28 +111,23 @@ player_crud = PlayerCrud()
 
 class VideoCrud:
     async def create(self, db: Session, video_data: VideoTable):
-        video = VideoTable(**video_data.dict())
+        video = VideoTable(**video_data.model_dump())
         db.add(video)
         db.commit()
         db.refresh(video)
-        return str(video.id)
+        return video
 
     async def get(self, db: Session, video_id: str = None):
         if video_id:
             response = db.get(VideoTable, video_id)
-            if response:
-                return response
-            return None
+            return response if response else None
         
-        responses = db.query(VideoTable).all()
-        return [
-            video for video in responses
-        ]
+        return db.exec(VideoTable).all()
 
     async def update(self, db: Session, video_id: str, updated_video: VideoTable):
         video = db.get(VideoTable, video_id)
         if video:
-            for key, value in updated_video.dict(exclude_unset=True).items():
+            for key, value in updated_video.model_dump(exclude_unset=True).items():
                 setattr(video, key, value)
             db.commit()
             db.refresh(video)

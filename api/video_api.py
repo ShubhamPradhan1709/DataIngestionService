@@ -21,8 +21,15 @@ async def upload_video(file: UploadFile = File(...)):
         
         videoMetaData =  await videoService.save_video(videoCreateObject)
 
-        print(videoMetaData)
+        video_data = video_crud.create(videoMetaData)
+        if not video_data:
+            return HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error: Entry not created {str(e)}"
+            )
+        
         return videoMetaData
+
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

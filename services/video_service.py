@@ -15,7 +15,12 @@ class VideoService:
         with open(file_path, "wb") as buffer:
             buffer.write(video_details.video_file)
         
-        return VideoObjectStoreResponse(video_name=video_details.video_name, video_url=validate_dir)
+        return VideoObjectStoreResponse(
+            video_name=video_details.video_name, 
+            video_format=video_details.video_format, 
+            video_size=video_details.video_size, 
+            video_url=validate_dir
+            )
 
 
 
