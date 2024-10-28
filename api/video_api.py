@@ -1,9 +1,8 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, status, Depends
-from services.video_service import videoService
+from services.video_service import videoService, video_crud
 from models.video import VideoCreateRequest, VideoResponse, VideoTable
 from db.dbsetup import get_session
 from sqlmodel import Session
-from services.crud_service import video_crud
 
 router = APIRouter()
 
@@ -29,8 +28,6 @@ async def upload_video(session: Session = Depends(get_session), file: UploadFile
             video_url=videoMetaData.video_url
         )
 
-        
-        print(type(video_data))
         video_data = await video_crud.create(session, video_data)
         if not video_data:
             return HTTPException(
@@ -48,19 +45,11 @@ async def upload_video(session: Session = Depends(get_session), file: UploadFile
     
     # writeVideoMetaData()
     
-    
-    return {"message": "Video uploaded successfully"}
     # Also once the video is successfully create the metadata in video table as well as call the VideoChunkingEventQueue
     # writeVideoMetaData()
     
-    # 
-
-    return {"message": "Video uploaded successfully"}
 
 
-# What will be the object store?
-# what parameter/input are we taking from the user to upload the file
-# 
 
 @router.get("/videos/{video_id}")
 async def get_video_details(video_id: str):
