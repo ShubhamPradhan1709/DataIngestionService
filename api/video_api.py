@@ -1,17 +1,16 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, status, Depends
 from services.video_service import videoService
-from models.video import VideoCreateRequest, VideoResponse
-from services.crud_service import video_crud
-from db.dbsetup import SessionDep
+from models.video import VideoCreateRequest, VideoResponse, VideoTable
+from db.dbsetup import get_session
 from sqlmodel import Session
+from services.crud_service import video_crud
 
 router = APIRouter()
 
 @router.post("/videos")
-async def upload_video(file: UploadFile = File(...)):
+async def upload_video(session: Session = Depends(get_session), file: UploadFile = File(...)):
    
     # Placeholder for uploading video to object store
-    db: Session = Depends(SessionDep)
     try:
         file_content = await file.read()
         videoCreateObject = VideoCreateRequest(
@@ -22,7 +21,17 @@ async def upload_video(file: UploadFile = File(...)):
         )
         
         videoMetaData =  await videoService.save_video(videoCreateObject)
-        video_data = await video_crud.create(videoMetaData)
+
+        video_data = VideoTable(
+            video_name=videoMetaData.video_name,
+            video_format=videoMetaData.video_format,
+            video_size=videoMetaData.video_size,
+            video_url=videoMetaData.video_url
+        )
+
+        
+        print(type(video_data))
+        video_data = await video_crud.create(session, video_data)
         if not video_data:
             return HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
