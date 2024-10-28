@@ -3,4 +3,5 @@ uvicorn
 pydantic
 kafka-python
 sqlmodel
-
+psycopg2-binary
+python-multipart
