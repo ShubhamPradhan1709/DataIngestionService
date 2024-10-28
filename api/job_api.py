@@ -8,3 +8,4 @@ router = APIRouter()
 async def create_job(job_details: JobCreateRequest):
     # Placeholder for creating a job
     return {"message": "Job created successfully"}
+

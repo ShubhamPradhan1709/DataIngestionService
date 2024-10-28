@@ -18,6 +18,9 @@ async def upload_video(video_details: VideoCreateRequest):
     return {"message": "Video uploaded successfully"}
 
 
+# What will be the object store?
+# what parameter/input are we taking from the user to upload the file
+# 
 
 @router.get("/videos/{video_id}")
 async def get_video_details(video_id: str):
@@ -25,3 +28,5 @@ async def get_video_details(video_id: str):
     # Placeholder for getting video details 
 
     return {"message": "Video details fetched"}
+
+
