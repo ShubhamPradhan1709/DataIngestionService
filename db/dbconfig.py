@@ -1,15 +1,16 @@
 import json
 import os
 
+
 class Config:
-    def __init__(self, dbconfig_file='config.json'):
-        self.dbconfig_file = dbconfig_file
+    def __init__(self):
         self.load_dbconfig()
-    
+
     def load_dbconfig(self):
-        if not os.path.exists(self.dbconfig_file):
+        config_file_path = os.path.join(os.path.dirname(__file__), 'config.json')
+        if not os.path.exists(config_file_path):
             raise FileNotFoundError(f"Database configuration file not found.")
-        with open(self.dbconfig_file) as f:
+        with open(config_file_path) as f:
             dbconfig_data = json.load(f)
             self.DB_HOST = dbconfig_data.get("DB_HOST")
             self.DB_USER = dbconfig_data.get("DB_USER")

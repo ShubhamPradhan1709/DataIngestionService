@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field, Relationship
-from video import VideoTable
+from models.video import VideoTable
 
 class JobCreateRequest(BaseModel):
     video_id: str

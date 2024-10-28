@@ -1,5 +1,5 @@
 from sqlmodel import create_engine, Session
-from dbconfig import config
+from db.dbconfig import config
 
 DB_USER = config.DB_USER
 DB_PASSWORD = config.DB_PASSWORD
